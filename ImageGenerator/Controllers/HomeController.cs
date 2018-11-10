@@ -5,11 +5,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ImageGenerator.Models;
+using ImageGenerator.Interfaces;
 
 namespace ImageGenerator.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IImageService _imageService;
+
+        public HomeController(IImageService imageService)
+        {
+            _imageService = imageService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -42,7 +50,7 @@ namespace ImageGenerator.Controllers
 
         public IActionResult ReturnImage()
         {
-
+            return File(_imageService.GenerateImage(256, 256), "image/png");
         }
     }
 }
